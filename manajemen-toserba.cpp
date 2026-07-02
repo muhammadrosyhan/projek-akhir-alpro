@@ -17,11 +17,11 @@ private:
     string username, password;
 public:
     void inputAkun(int roleTerpilih) {
-        // Jika yang dipilih adalah Gudang (Role 3), tampilkan info waktu laptop & shift
+
         if (roleTerpilih == 3) {
-            system("cls"); // Bersihkan layar agar informatif dan rapi
+            system("cls"); 
             
-            // Ambil data waktu dari sistem OS/Laptop
+            
             time_t t = time(0);
             struct tm* now = localtime(&t);
             
@@ -29,7 +29,7 @@ public:
             cout << "          SISTEM WAKTU GUDANG           " << endl;
             cout << "========================================" << endl;
             
-            // Tampilkan jam aktif saat ini dengan format HH.MM.SS
+           
             cout << "Jam Digital Laptop : ";
             if (now->tm_hour < 10) cout << "0"; cout << now->tm_hour << ".";
             if (now->tm_min < 10) cout << "0";  cout << now->tm_min << ".";
@@ -42,7 +42,7 @@ public:
             cout << "- Shift Malam : 20.00 - 04.00 (User: NABIL | Pw: #321)" << endl;
             cout << "----------------------------------------" << endl;
             
-            // Tentukan shift secara pasif berdasarkan jam laptop saat ini
+            
             cout << "Shift Anda Saat Ini : ";
             if (now->tm_hour >= 4 && now->tm_hour < 12) {
                 cout << "PAGI" << endl;
@@ -66,41 +66,41 @@ public:
     if (roleTerpilih == 1 && username == "Rosyhan" && password == "#111") return 4;
     if (roleTerpilih == 2 && username == "Hadi" && password == "#141") return 2;
     
-    // Verifikasi Dinamis & Proteksi Lintas Shift Khusus Gudang
+    
     if (roleTerpilih == 3) {
         time_t t = time(0);
         struct tm* now = localtime(&t);
         int hour = now->tm_hour;
 
-        // 1. Deteksi SHIFT AKTIF saat ini berdasarkan jam nyata laptop
+        
         string shiftSekarang = "";
         if (hour >= 4 && hour < 12)       shiftSekarang = "pagi";
         else if (hour >= 12 && hour < 20) shiftSekarang = "siang";
         else                              shiftSekarang = "malam";
 
-        // 2. Deteksi akun yang DIINPUTKAN oleh user itu milik shift mana
+        
         string shiftInput = "";
         if (username == "Nabil" && password == "#132")      shiftInput = "pagi";
         else if (username == "nabil" && password == "#123") shiftInput = "siang";
         else if (username == "NABIL" && password == "#321") shiftInput = "malam";
 
-        // 3. Logika Validasi Kecocokan Shift
-        if (shiftInput != "") { // Jika akun terdaftar di database shift
+        
+        if (shiftInput != "") { 
             if (shiftInput == shiftSekarang) {
-                return 3; // Lolos! Akun sesuai dengan shift yang sedang berjalan.
+                return 3; 
             } else {
-                // Sesuai permintaan: Peringatan dinamis berubah sesuai shift yang diinputkan
+                
                 cout << endl;
                 cout << "=========================================" << endl;
                 cout << "[SISTEM]: LOGIN DITOLAK!" << endl;
                 cout << "[SISTEM]: Sekarang bukan shift " << shiftInput << "." << endl;
                 cout << "[SISTEM]: Jam laptop mendeteksi shift " << shiftSekarang << "." << endl;
                 cout << "=========================================" << endl;
-                return 0; // Gagal login karena salah waktu shift
+                return 0; 
             }
         }
         
-        // 4. Jika username/password yang diketik memang salah total (tidak terdaftar di shift manapun)
+        
         cout << endl << "[SISTEM]: Login Gagal! Username atau Password salah." << endl;
         return 0;
     }
@@ -213,7 +213,7 @@ public:
 		string shiftKasir;
 		int pilihShift;		
 
-    // Variabel tambahan
+    
     int metodePembayaran;
     string namaMetode;
     int bayar, kembalian;
@@ -280,9 +280,7 @@ public:
 
     totalBayar = total - diskon;
 
-    // ==========================
-    // METODE PEMBAYARAN
-    // ==========================
+    
     cout << "\n========================================" << endl;
     cout << "        METODE PEMBAYARAN" << endl;
     cout << "========================================" << endl;
@@ -356,9 +354,9 @@ public:
         kembalian = bayar - totalBayar;
 }
 
-    // ==========================
+    
     // CETAK STRUK
-    // ==========================
+
     cout << endl;
     cout << "========================================" << endl;
     cout << "              TOKO TIGA" << endl;
@@ -388,9 +386,10 @@ public:
 	}
 };
 
-//=== CLASS ADMIN KEUANGAN ===
+//=== CLASS ADMIN KEUANGAN HADI ===
 class AdminKeuangan {
 private:
+	//===========
 	void cariPengeluaran() {
 
     ifstream file("DataPengeluaran.txt");
@@ -431,7 +430,8 @@ private:
 
     system("pause");
 }
-	
+
+	//=========
 	void cariPemasukan() {
 
     ifstream file("DataPemasukan.txt");
@@ -475,6 +475,7 @@ private:
     system("pause");
 }
 	
+	//===========
     void pemasukan() {
 
     cout << "=== INPUT PEMASUKAN ===" << endl;
@@ -517,7 +518,7 @@ private:
     cout << "Data pemasukan berhasil disimpan!" << endl;
     system("pause");
 }
-
+//=============
     void liatpemasukan() {
 
     ifstream file("DataPemasukan.txt");
@@ -560,55 +561,8 @@ private:
 }
 
 
-void hapusPemasukan() {
 
-    ifstream file("DataPemasukan.txt");
-    ofstream temp("Temp.txt");
-
-    string sumber;
-    string tanggal;
-    long long jumlah;
-
-    int nomor;
-    int pilih;
-    nomor = 1;
-
-    liatpemasukan();
-
-    cout << endl;
-    cout << "Masukkan nomor data yang akan dihapus : ";
-    cin >> pilih;
-
-    while (getline(file, sumber, '|')) {
-
-        getline(file, tanggal, '|');
-
-        file >> jumlah;
-        file.ignore();
-
-        if (nomor != pilih) {
-
-            temp << sumber << "|"
-                 << tanggal << "|"
-                 << jumlah << endl;
-
-        }
-
-        nomor++;
-    }
-
-    file.close();
-    temp.close();
-
-    remove("DataPemasukan.txt");
-    rename("Temp.txt", "DataPemasukan.txt");
-
-    cout << "Data berhasil dihapus." << endl;
-
-    system("pause");
-}
-
-
+//===============
     void pengeluaran() {
 
     cout << "=== INPUT PENGELUARAN ===" << endl;
@@ -654,7 +608,7 @@ void hapusPemasukan() {
     system("pause");
 }
 	
-	
+	//=================
 	void liatpengeluaran() {
 
     ifstream file("DataPengeluaran.txt");
@@ -695,74 +649,74 @@ void hapusPemasukan() {
     system("pause");
 }
 	
-	
+	//==============================
     void keuntungan() {
     long long totalMasuk = 0;
 	long long totalKeluar = 0;
 	long long untung;
-
-ifstream fileMasuk("DataPemasukan.txt");
-
-string sumberFile;
-string tanggalFile;
-long long jumlahFile;
-
-if (fileMasuk.is_open()) {
-
-    while (getline(fileMasuk, sumberFile, '|')) {
-
-        getline(fileMasuk, tanggalFile, '|');
-
-        fileMasuk >> jumlahFile;
-        fileMasuk.ignore();
-
-        totalMasuk = totalMasuk + jumlahFile;
-    }
-
-    fileMasuk.close();
-}
-ifstream fileKeluar("DataPengeluaran.txt");
-
-string tujuanFile;
-string tanggalKeluarFile;
-
-if (fileKeluar.is_open()) {
-
-    while (getline(fileKeluar, tujuanFile, '|')) {
-
-        getline(fileKeluar, tanggalKeluarFile, '|');
-
-        fileKeluar >> jumlahFile;
-        fileKeluar.ignore();
-
-        totalKeluar = totalKeluar + jumlahFile;
-    }
-
-    fileKeluar.close();
-}
-    untung = totalMasuk - totalKeluar;
-
-    cout << "===== LAPORAN KEUANGAN =====" << endl;
-	cout << "Total Pemasukan   : Rp " << totalMasuk << endl;
-	cout << "Total Pengeluaran : Rp " << totalKeluar << endl;
-	cout << "Keuntungan        : Rp " << untung << endl;
-	
-	if (untung > 0) {
-	    cout << "Status            : UNTUNG" << endl;
-	}
-	else if (untung < 0) {
-	    cout << "Status            : RUGI" << endl;
-	}
-	else {
-	    cout << "Status            : IMPAS" << endl;
-	}
-	
-	system("pause");
-	}
-
-
+		
+		ifstream fileMasuk("DataPemasukan.txt");
+		
+		string sumberFile;
+		string tanggalFile;
+		long long jumlahFile;
+		
+		if (fileMasuk.is_open()) {
+		
+		    while (getline(fileMasuk, sumberFile, '|')) {
+		
+		        getline(fileMasuk, tanggalFile, '|');
+		
+		        fileMasuk >> jumlahFile;
+		        fileMasuk.ignore();
+		
+		        totalMasuk = totalMasuk + jumlahFile;
+		    }
+		
+		    fileMasuk.close();
+		}
+		ifstream fileKeluar("DataPengeluaran.txt");
+		
+		string tujuanFile;
+		string tanggalKeluarFile;
+		
+		if (fileKeluar.is_open()) {
+		
+		    while (getline(fileKeluar, tujuanFile, '|')) {
+		
+		        getline(fileKeluar, tanggalKeluarFile, '|');
+		
+		        fileKeluar >> jumlahFile;
+		        fileKeluar.ignore();
+		
+		        totalKeluar = totalKeluar + jumlahFile;
+		    }
+		
+		    fileKeluar.close();
+		}
+		    untung = totalMasuk - totalKeluar;
+		
+		    cout << "===== LAPORAN KEUANGAN =====" << endl;
+			cout << "Total Pemasukan   : Rp " << totalMasuk << endl;
+			cout << "Total Pengeluaran : Rp " << totalKeluar << endl;
+			cout << "Keuntungan        : Rp " << untung << endl;
+			
+			if (untung > 0) {
+			    cout << "Status            : UNTUNG" << endl;
+			}
+			else if (untung < 0) {
+			    cout << "Status            : RUGI" << endl;
+			}
+			else {
+			    cout << "Status            : IMPAS" << endl;
+			}
+			
+			system("pause");
+			}
 
 
+
+//==========
 public:
     AdminKeuangan() {
        
